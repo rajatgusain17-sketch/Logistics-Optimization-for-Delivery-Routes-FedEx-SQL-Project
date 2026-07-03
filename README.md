@@ -70,7 +70,7 @@ Key Insight from Visual Output:
 ​The data exposes a massive performance delta across the network:
 ​Top Performers: Long-haul air channels like Johannesburg to Dubai (R019) operate at peak efficiency with a velocity of 545.49 KM/H, closely followed by Los Angeles to Amsterdam (R010) at 540.34 KM/H. This indicates highly optimized flight paths and rapid customs clearance.
 
-Screenshot: ![dstance to time eff. ratio]()
+#### Screenshot:  ![dstance to time eff. ratio](https://github.com/rajatgusain17-sketch/Logistics-Optimization-for-Delivery-Routes-FedEx-SQL-Project/blob/main/Distance%20to%20Time%20eff%20ratio.png?raw=true)
 
 
 
