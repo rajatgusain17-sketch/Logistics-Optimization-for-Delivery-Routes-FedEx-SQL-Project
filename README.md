@@ -58,19 +58,25 @@ Shipment_ID, Order_ID, Agent_ID, Route_ID, Warehouse_ID, Pickup_Date, Delivery_D
  ---
  
 ## Key Business Metrics and SQL Solutions
-### 1.The Question: 
-To calculate "DISTANCE-TO-TIME EFFICIENCY RATIO = DISTANCE_KM / AVG_TRANSIT_TIME_HOURS".
-Metric: Distance-to-Time Efficiency Ratio (Route Velocity Analytics)
+### 1. To calculate "DISTANCE-TO-TIME EFFICIENCY RATIO = DISTANCE_KM / AVG_TRANSIT_TIME_HOURS".
 
-*The Business Problem:* How quickly are goods moving across our global transit lanes? Simply looking at total transit time doesn't tell the whole story—a long-distance route will naturally take more hours than a short one. To fairly evaluate route performance, we need to calculate the *effective speed (KM per Hour)* for each route. Identifying paths with an abnormally low efficiency ratio allows logistics managers to flag structural bottlenecks, complex customs checkpoints, or slow carrier segments.
+#### The Business Problem:      
+How quickly are goods moving across our global transit lanes? Simply looking at total transit time doesn't tell the whole story—a long-distance route will naturally take more hours than a short one. To fairly evaluate route performance, we need to calculate the *effective speed (KM per Hour)* for each route. Identifying paths with an abnormally low efficiency ratio allows logistics managers to flag structural bottlenecks, complex customs checkpoints, or slow carrier segments.
+
+*The SQL Code:*   
+```SELECT Route_ID,  Source_City, Destination_City, Distance_KM, Avg_Transit_Time_Hours, ROUND(Distance_KM / Avg_Transit_Time_Hours, 2) AS Efficiency_Ratio_KMH FROM fedex_routes ORDER BY Efficiency_Ratio_KMH DESC;```
+#### Key Insight :
+​Top Performers: Long-haul air channels like Johannesburg to Dubai (R019) operate at peak efficiency with a velocity of 545.49 KM/H, closely followed by Los Angeles to Amsterdam (R010) at 540.34 KM/H. This indicates highly optimized flight paths and rapid customs clearance.
+#### Screenshot:  ![dstance to time eff. ratio](https://github.com/rajatgusain17-sketch/Logistics-Optimization-for-Delivery-Routes-FedEx-SQL-Project/blob/main/Distance%20to%20Time%20eff%20ratio.png?raw=true)
+
+---
+
+### 2. To calculate AVERAGE DELIVERY DELAY PER SOURCE COUNTRY.
+#### The Business Problem:     
+Which global origin hubs are introducing the most friction into our supply chain? Total shipments don't tell the full story—a country might handle high volume efficiently while a smaller hub causes severe delivery backlogs. To isolate systemic bottlenecks at the point of origin, we need to calculate the *Average Delay Hours* across different source countries. This metric allows logistics operations to pinpoint specific international custom choke points, localized warehouse inefficiencies, or carrier delays.
 
 *The SQL Solution:*
-```SELECT Route_ID,  Source_City, Destination_City, Distance_KM, Avg_Transit_Time_Hours, ROUND(Distance_KM / Avg_Transit_Time_Hours, 2) AS Efficiency_Ratio_KMH FROM fedex_routes ORDER BY Efficiency_Ratio_KMH DESC;```
-Key Insight from Visual Output:
-​The data exposes a massive performance delta across the network:
-​Top Performers: Long-haul air channels like Johannesburg to Dubai (R019) operate at peak efficiency with a velocity of 545.49 KM/H, closely followed by Los Angeles to Amsterdam (R010) at 540.34 KM/H. This indicates highly optimized flight paths and rapid customs clearance.
-
-#### Screenshot:  ![dstance to time eff. ratio](https://github.com/rajatgusain17-sketch/Logistics-Optimization-for-Delivery-Routes-FedEx-SQL-Project/blob/main/Distance%20to%20Time%20eff%20ratio.png?raw=true)
+``` SELECT r.Source_Country, COUNT(s.Shipment_ID) AS Total_Shipments, ROUND(AVG(s.Delay_Hours), 2) AS Avg_Delay_Hours  FROM  fedex_shipments s  JOIN  fedex_routes r ON s.Route_ID = r.Route_ID  GROUP BY   r.Source_Country  ORDER BY  Avg_Delay_Hours DESC;```
 
 
 
