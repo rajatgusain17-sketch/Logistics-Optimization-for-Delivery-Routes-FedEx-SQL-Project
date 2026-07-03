@@ -21,7 +21,36 @@ The project aims to:
 ● Identify delay patterns and operational inefficiencies.      
 ● Optimize hub and route combinations for improved transit times.         
 ● Analyze agent- and warehouse-level performance.         
-● Recommend actionable improvements that strengthen on-time delivery and cost efficiency.           
+● Recommend actionable improvements that strengthen on-time delivery and cost efficiency.         
+
+---
+
+## Dataset Used     
+The dataset will include the following key tables:
+### 1. Orders Table
+The Orders dataset contains order-level delivery details including order date, route, warehouse,and payment type.    
+#### Columns:
+Order_ID, Customer_ID, Order_Date, Route_ID, Warehouse_ID, Order_Amount,Delivery_Type, Payment_Mode
+### 2. Routes Table
+The Routes dataset includes route-level transportation details, covering the source and destination cities, countries, total distance, and average transit time (in hours).
+#### Columns:   
+Route_ID, Source_City, Source_Country, Destination_City, Destination_Country, Distance_KM, Avg_Transit_Time_Hours
+### 3. Warehouses Table
+The Warehouses dataset provides location-level information about FedEx’s major hubs and sortation centers.
+#### Columns:      
+Warehouse_ID, City, Country, Capacity_per_day, Manager_Name
+### 4. Delivery Agents Table
+The Delivery Agents dataset contains agent-level performance data, including agent ID, name, assigned zone and country, experience, and customer rating.
+#### Columns:      
+Agent_ID, Agent_Name, Zone, Zone_Country, Experience_Years, Avg_Rating
+### 5. Shipment Tracking Table
+The Shipments dataset includes shipment-level tracking information with timestamps for pickup and delivery, delay duration, and feedback ratings. It captures operational data that helps analyze transit time, on-time delivery percentage, and service-level adherence across routes and agents.
+#### Columns:       
+Shipment_ID, Order_ID, Agent_ID, Route_ID, Warehouse_ID, Pickup_Date, Delivery_Date, Delivery_Status, Delay_Hours, Delivery_Feedback      
+
+--- 
+
+
 
 
 
