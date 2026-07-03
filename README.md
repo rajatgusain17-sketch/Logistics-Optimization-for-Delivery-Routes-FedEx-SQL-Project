@@ -69,8 +69,8 @@ Metric: Distance-to-Time Efficiency Ratio (Route Velocity Analytics)
 Key Insight from Visual Output:
 ​The data exposes a massive performance delta across the network:
 ​Top Performers: Long-haul air channels like Johannesburg to Dubai (R019) operate at peak efficiency with a velocity of 545.49 KM/H, closely followed by Los Angeles to Amsterdam (R010) at 540.34 KM/H. This indicates highly optimized flight paths and rapid customs clearance.
-​
 
+Screenshot: ![dstance to time eff. ratio]()
 
 
 
