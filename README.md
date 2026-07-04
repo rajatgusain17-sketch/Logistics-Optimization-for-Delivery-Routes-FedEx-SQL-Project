@@ -77,22 +77,49 @@ How quickly are goods moving across our global transit lanes? Simply looking at 
 #### The Business Problem:     
 Which global origin hubs are introducing the most friction into our supply chain? Total shipments don't tell the full story—a country might handle high volume efficiently while a smaller hub causes severe delivery backlogs. To isolate systemic bottlenecks at the point of origin, we need to calculate the *Average Delay Hours* across different source countries. This metric allows logistics operations to pinpoint specific international custom choke points, localized warehouse inefficiencies, or carrier delays.
 
-*The SQL Solution:*
+*The SQL Code:*            
 ``` SELECT r.Source_Country, COUNT(s.Shipment_ID) AS Total_Shipments, ROUND(AVG(s.Delay_Hours), 2) AS Avg_Delay_Hours  FROM  fedex_shipments s  JOIN  fedex_routes r ON s.Route_ID = r.Route_ID  GROUP BY   r.Source_Country  ORDER BY  Avg_Delay_Hours DESC;```
-
-
-
-
-
-
+#### Key Insight :
+The High-Impact Risk: China stands out as a critical operational vulnerability. It processes a massive volume of 95 shipments while suffering a severe average delay of 32.53 hours.    
+​The Peak Outlier: The UAE records the highest pure friction with an average delay of 41.04 hours over 47 shipments.                
+The Baseline Efficiency: On the other end of the spectrum, Western hubs like the USA (16.95 hours over 144 shipments) and Canada (9.72 hours over 38 shipments) demonstrate high efficiency and fast dispatch pipelines despite processing higher overall volume.      
+#### Screenshot: ![average delivery delay](https://github.com/rajatgusain17-sketch/FEDEX-SQL-PROJECT/blob/main/Avg%20delivery%20delay.png?raw=true)
 
 ---
 
+### 3. To calculate On Time Delivery %(OTD).
+#### The Business Problem:
+To evaluate the operational excellence of our global warehouses, we must calculate the On-Time Delivery (OTD) Percentage. This KPI helps management identify which facilities are meeting customer expectations and which are becoming bottlenecks, allowing for targeted resource allocation.      
 
-## Screenshots
-### 1. Average Delay(in hours) per Route ID:![average delay per route id](https://github.com/rajatgusain17-sketch/FEDEX-SQL-PROJECT/blob/main/Avg%20delapy%20per%20route%20id.png?raw=true)   
-### 2. On Time Delivery %:![on time delivery %](https://github.com/rajatgusain17-sketch/FEDEX-SQL-PROJECT/blob/main/on%20timedelivery%20%25.png?raw=true)
-### 3. Average Delivery Delay per Source Country:![average delivery delay](https://github.com/rajatgusain17-sketch/FEDEX-SQL-PROJECT/blob/main/Avg%20delivery%20delay.png?raw=true)
+*The SQL Code:*             
+```SELECT  w.Warehouse_ID,w.city, COUNT(s.Shipment_ID) AS Total_Deliveries, ROUND(SUM(CASE WHEN s.Delay_Hours = 0 THEN 1 ELSE 0 END) * 100.0 / COUNT(s.Shipment_ID), 2)```
+```AS Warehouse_OTD_Percentage  FROM fedex_shipments s ```
+```JOIN fedex_warehouses w ON s.Warehouse_ID = w.Warehouse_ID```
+```GROUP BY w.Warehouse_ID, w.city;``` 
+
+#### Key Insights:
+Top Performer: Amsterdam leads the network with an OTD percentage of 10.71%.     
+​Network Reality: The overall network average OTD% sits at 6.72%. This metric serves as a baseline, indicating that current operational processes require significant optimization to improve reliability across all regions.             
+#### Screenshot: ![on time delivery %](https://github.com/rajatgusain17-sketch/FEDEX-SQL-PROJECT/blob/main/on%20timedelivery%20%25.png?raw=true)
+
+---
+
+### 4. To calcuate  AVERAGE DELAY (IN HOURS) PER ROUTE_ID.
+#### The Business Problem:     
+To optimize the supply chain, we must move beyond general averages and identify which specific transit paths are underperforming. By analyzing the Average Delay per Route_ID, we can isolate systemic operational bottlenecks, such as slow customs clearance or poor infrastructure on specific paths, allowing management to prioritize targeted improvements.           
+*The SQL Code:*      
+```SELECT  Route_ID, ROUND(AVG(Delay_Hours), 2) AS Avg_Delay_Hours, COUNT(Shipment_ID) AS Total_Shipments```
+```FROM fedex_shipments   GROUP BY Route_ID  ORDER BY Avg_Delay_Hours DESC;```  
+#### Key Insight:      
+Network Performance Baseline: Across the analyzed dataset, the global average delay is 25.12 hours calculated from a total of 1,034 shipments.
+​Operational Outliers: Route R002 is the most significant bottleneck, exhibiting an average delay of 41.04 hours, which is substantially higher than the network average.
+​Actionable Intelligence: Routes such as R002 and R007 (34.01 hours) are immediate candidates for a root-cause investigation, as they are dragging down the overall efficiency of the network.            
+#### Screenshot: ![average delay per route id](https://github.com/rajatgusain17-sketch/FEDEX-SQL-PROJECT/blob/main/Avg%20delapy%20per%20route%20id.png?raw=true)  
+
+
+ ---
+
+
 ## Key Insights & Business Recommendations
 
 ### Core Analytical Insights
@@ -106,3 +133,26 @@ Which global origin hubs are introducing the most friction into our supply chain
 * *SLA Realignment*: Adjust "Estimated Delivery Date" expectations to reflect the real-world 25-hour average delay to improve customer trust.
 * *Route R002 Deep Dive*: Model the logistics flow of R002 after the high-performing R001 route to reduce delays.
 * *Optimize Warehouse Footprint*: Consolidate under-utilized hubs using a "Hub-Spoke" model to reduce fixed operational costs.
+
+  ---
+
+
+## ​Learning Outcomes   
+* #### Data-Driven Problem Solving:                          
+Learned to translate complex, messy logistics datasets into clear performance metrics, specifically identifying a systemic "on-time" delivery crisis where OTD rates were under 10%.           
+* #### Root Cause Analysis (RCA):                
+Gained proficiency in isolating specific bottlenecks by comparing performance across regions and routes, such as identifying why Route R002 experienced a 41-hour delay while R001 remained highly efficient.              
+* #### Operational Strategy:      
+Developed the ability to propose strategic business changes based on quantitative evidence, such as recommending a "Hub-Spoke" consolidation model to address extreme warehouse under-utilization (0.20%–0.30%).              
+* #### Advanced Analytical Modeling:     
+Learned to uncover latent operational patterns, such as the "Tipping Point" where warehouse utilization over 85% causes exponential dispatch delays.                
+* #### Evaluating Business Infrastructure:                   
+Enhanced skills in assessing Service Level Agreements (SLAs) by uncovering "SLA Erosion," where premium-paying customers were receiving standard-level service.         
+* #### Contextual Data Interpretation:            
+Learned how to apply the "80/20 Rule" to logistics to focus on the most impactful issues, such as specific mechanical and traffic failures that drive the majority of extreme delay outliers.                
+
+---
+
+## Conclusion
+​This project successfully utilized SQL to uncover critical bottlenecks in the FedEx logistics network, highlighting issues such as a low on-time delivery rate and severe warehouse under-utilization. By identifying these inefficiencies and recommending strategic actions—including SLA realignment, facility consolidation, and route modeling—this analysis provides a clear, data-driven roadmap for operational improvement.    
+Ultimately, this project demonstrates how data analysis can be used to reduce costs and improve service reliability in complex supply chain environments.
