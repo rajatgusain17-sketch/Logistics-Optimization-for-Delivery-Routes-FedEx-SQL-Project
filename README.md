@@ -4,6 +4,8 @@ FedEx, one of the world’s largest logistics and courier service providers, ope
 The network includes international sortation centers, regional hubs, and last-mile delivery partners that handle millions of shipments daily across continents.
 As global e-commerce volumes continue to surge — especially during peak seasons and holidays — flight delays, customs bottlenecks, and last-mile congestion significantly impact both on-time delivery performance and operational costs.  
 
+### Challenges faced by FEDEX     
+
 Currently, FedEx’s logistics operations face challenges in:   
 ● Identifying the root causes of transit and delivery delays (e.g., customs clearance, weather disruptions, route congestion).       
 ● Optimizing international and regional routes for faster, more cost-effective deliveries.          
